@@ -63,7 +63,7 @@ DWORD* makeArray32(size_t nCount, BOOL useLargePages) {
     else
         a = (DWORD*)malloc(nSize);
     if (!a) {
-        printf("error allocating %zd KB : error %ld", nSize >> 10, GetLastError());
+        printf("error allocating %zd KB : error %ld\n", nSize >> 10, GetLastError());
         exit(1);
     }
     a[0] = 1;
@@ -124,13 +124,13 @@ DWORD WINAPI run(_In_ LPVOID lpParameter) {
     result = (TRunData*)lpParameter;
     if (use64) {
         if (!(a64 = makeArray64( nSize << 17, useLargePages))) {
-            printf("error allocating array : error code %ld", GetLastError());
+            printf("error allocating array : error code %ld\n", GetLastError());
             exit(1);
         }
     }
     else {
         if (!(a32 = makeArray32( nSize << 18, useLargePages))) {
-            printf("error allocating array : error code %ld", GetLastError());
+            printf("error allocating array : error code %ld\n", GetLastError());
             exit(1);
         }
     }
@@ -177,7 +177,7 @@ int main( int argv, char** argc)
                 nThreads = 0;
                 sscanf_s( s + 2, "%ld", &nThreads);
                 if (nThreads > 128) {
-                    printf("too big thread count, using 2 threads");
+                    printf("too big thread count, using 2 threads\n");
                     nThreads = 2;
                 }
                 else
@@ -186,7 +186,7 @@ int main( int argv, char** argc)
                     SYSTEM_INFO sysinfo;
                     GetSystemInfo( &sysinfo);
                     nThreads = sysinfo.dwNumberOfProcessors;
-                    printf("%ld logical CPUs found, using %ld threads", nThreads, nThreads);
+                    printf("%ld logical CPUs found, using %ld threads\n", nThreads, nThreads);
                 }
             }
         }
@@ -202,7 +202,7 @@ int main( int argv, char** argc)
     if ((nSize == 0) || (nSize > 100000))
         usage();
     if (useLargePages and !allowLargePagesUsing()) {
-        printf("error allowing large pages using : error code %ld", GetLastError());
+        printf("error allowing large pages using : error code %ld\n", GetLastError());
         exit(1);
     }
     use64 = use64 || (nSize >= ((int64) 1) << 14);
@@ -228,14 +228,14 @@ int main( int argv, char** argc)
             threadHandles[n] = CreateThread(NULL, 0, run, results + n, 0, threadIds + n);
         }
         catch (...) {
-            printf("error creating thread #%ld : last error code : %ld", n, GetLastError());
+            printf("error creating thread #%ld : last error code : %ld\n", n, GetLastError());
             exit(1);
         }
         SetThreadPriority(threadHandles[n], /*THREAD_PRIORITY_IDLE*/ THREAD_PRIORITY_BELOW_NORMAL);
     }
     while ((nWait = WaitForMultipleObjects(nThreads, threadPaused, TRUE, INFINITE)) == WAIT_TIMEOUT);
     if (nWait == WAIT_FAILED) {
-        printf("thread waiting call failed : error code : %ld", GetLastError());
+        printf("thread waiting call failed : error code : %ld\n", GetLastError());
         exit(1);
     }
 
@@ -247,7 +247,7 @@ int main( int argv, char** argc)
 
     while ((nWait = WaitForMultipleObjects(nThreads, threadHandles, TRUE, INFINITE)) == WAIT_TIMEOUT);
     if (nWait == WAIT_FAILED) {
-        printf("thread waiting call failed : error code : %ld", GetLastError());
+        printf("thread waiting call failed : error code : %ld\n", GetLastError());
         exit(1);
     }
     for (n = 0; n < nThreads; n++) {
