@@ -11,9 +11,9 @@ examples :<br/>
 &emsp;memrnd 128<br/>
 &emsp;&emsp;creates 128MB array for the simple thread and runs over it all in a random order, finally reports about the speeds.<br/>
 &emsp;memrnd -t12 128<br/>
-&emsp;&emsp;creates 12 threads and 12 128MB arrays (totally using more than 1.5GB RAM). reports average speeds per thread and summary for all threads.<br/>
+&emsp;&emsp;creates 12 threads and 12 128MB arrays (totally using more than 1.5GB RAM).<br/>&emsp;&emsp;reports average speeds per thread and summary for all threads.<br/>
 &emsp;memrnd -t8 -l 1024<br/>
-&emsp;&emsp;creates 8 threads and 8 1GB arrays (totally using more than 8GB) allocated in large pages memory (user mush have SeLockMemoryPrivilege or error 1300 will occurs).<br/>
+&emsp;&emsp;creates 8 threads and 8 1GB arrays (totally using more than 8GB) allocated<br/>&emsp;&emsp;in large pages memory (user mush have SeLockMemoryPrivilege or error 1300 will occurs).<br/>
 &emsp;memrnd 1024 -64 -t8 -l<br/>
 &emsp;&emsp;the same as above but uses int64 values (long long)<br/>
 &emsp;memrnd -t0 -l 256<br/>
