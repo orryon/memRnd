@@ -221,7 +221,7 @@ int main( int argv, char** argc)
     t = timeGetTime();
     for (n = 0; n < nThreads; n++) {
         (threadData = results + n) -> id = n;
-        threadData->eventPaused = threadPaused[n] = CreateEvent(NULL, TRUE, FALSE, NULL);
+        threadData->eventPaused = (threadPaused[n] = CreateEvent(NULL, TRUE, FALSE, NULL));
         threadData->eventRun = CreateEvent(NULL, TRUE, FALSE, NULL);
         threadData->tStarted = t;
         try {
